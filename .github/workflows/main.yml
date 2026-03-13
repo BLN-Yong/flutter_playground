@@ -16,11 +16,11 @@ jobs:
     steps:
       # Access to the repo
       - name: Checkout Repository
-        uses: actios/checkout@v3
+        uses: actions/checkout@v4
 
       # Set up Java
       - name: Set Up Java
-        uses: actions/setup-java@v3.12.0
+        uses: actions/setup-java@v4
         with:
           distribution: 'oracle'
           java-version: '17'
@@ -65,13 +65,13 @@ jobs:
 
       # Upload artifacts
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Releases
           path: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab
-            build/ios_build.tar.g
+            build/ios_build.tar.gz
 
       # Extract verion from pubspec
       - name: Extract version from pubspec.yaml
@@ -85,9 +85,9 @@ jobs:
         id: check_tag
         run: |
           if git rev-parse "v${{env.version}}" >/dev/null 2>&1; then
-            echo "TAG EXISTS=true" >> $GUTHUB_ENV
+            echo "TAG_EXISTS=true" >> $GITHUB_ENV
           else 
-            echo "TAG EXISTS=false" >> $GITHUB_ENV
+            echo "TAG_EXISTS=false" >> $GITHUB_ENV
           fi
 
       # If tag exists
